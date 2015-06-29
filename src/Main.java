@@ -1,15 +1,10 @@
-import java.awt.AWTEvent;
 import java.awt.AWTException;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.image.BufferedImage;
@@ -17,9 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
-import javax.sound.sampled.ReverbType;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -27,8 +20,6 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Toolkit.getDefaultToolkit().addAWTEventListener(new Listener(),
-				AWTEvent.MOUSE_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
 		final JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -51,8 +42,6 @@ public class Main {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					Rectangle captureSize = new Rectangle(Toolkit
-							.getDefaultToolkit().getScreenSize());
 					BufferedImage image = robot
 							.createScreenCapture(new Rectangle(new Point(xPos,
 									yPos), new Dimension(338, 338)));
@@ -79,7 +68,6 @@ public class Main {
 					int width = image.getWidth();
 					int height = image.getHeight();
 					String previousX = "";
-					String previousY = "";
 					int xValue = 0;
 					int yValue = 0;
 					List<List<String>> listOfLists = new ArrayList<List<String>>();
@@ -110,8 +98,6 @@ public class Main {
 							if(!currentList.isEmpty()){
 								listOfLists.add(currentList);
 							}
-							//System.out.println(currentList + "\n");
-							previousY = currentY;
 						}
 					}
 					
@@ -137,9 +123,7 @@ public class Main {
 					for(int i = 1; i < listSize; i+=step){
 						listOfLists2.add(listOfLists.get(i));
 					}
-					
-					//System.out.println("\n\n");
-					
+										
 					String tempX = "";
 					int tempX_v = 0;
 					String tempX2 = "";
@@ -159,7 +143,6 @@ public class Main {
 								} else if(!tempX.equals(listStrings.get(j))){
 									xValue = tempX_v;
 									yValue = tempY + 1;
-									System.out.println("NY");
 									break;
 								}
 							}
@@ -172,7 +155,6 @@ public class Main {
 								}else if(tempX2.equals(tempX) && !tempX2.equals("")){
 									xValue = j + 1;
 									yValue = tempY + 1;
-									System.out.println("NO");
 								}else if(tempX2.equals("")){
 									tempX2 = tempX;
 									tempX = listStrings.get(j);
@@ -198,7 +180,7 @@ public class Main {
 	}
 
 	private static class MyPanel extends JPanel {
-
+		private static final long serialVersionUID = 3404137174712770214L;
 		BufferedImage image = null;
 
 		MyPanel(BufferedImage image) {
@@ -216,12 +198,4 @@ public class Main {
 			return new Dimension(image.getWidth(), image.getHeight());
 		}
 	};
-
-	private static class Listener implements AWTEventListener {
-		public void eventDispatched(AWTEvent event) {
-			// System.out.print(MouseInfo.getPointerInfo().getLocation().x
-			// + " | ");
-			// System.out.println(event);
-		}
-	}
 }
